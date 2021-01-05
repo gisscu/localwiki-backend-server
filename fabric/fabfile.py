@@ -301,6 +301,10 @@ def setup_postgres(test_server=False):
         put('config/postgresql/postgresql_test.conf', '/etc/postgresql/9.1/main/postgresql.conf', use_sudo=True)
 
     set_postgresql_shmmax()
+    sudo('chown postgres /etc/postgresql/9.1/main/postgresql.conf')
+    sudo('chgrp postgres /etc/postgresql/9.1/main/postgresql.conf')
+    sudo('ls -alh  /etc/postgresql/9.1/main/')
+
     sudo('service postgresql start')
 
 def set_postgresql_shmmax():
@@ -328,6 +332,7 @@ def setup_memcached():
 
 def install_system_requirements():
     # Update package list
+    sudo("sed -i 's/us.archive.ubuntu.com/tw.archive.ubuntu.com/g' /etc/apt/sources.list")
     sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EA8F35793D8809A')
     sudo('apt-get update')
     sudo('apt-get -y install python-software-properties')
@@ -339,16 +344,22 @@ def install_system_requirements():
     # PPA.
     sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 314DF160')
     sudo('apt-add-repository -y ppa:ubuntugis/ubuntugis-unstable')
+
+    sudo('echo "deb http://apt.postgresql.org/pub/repos/apt precise-pgdg main" >> /etc/apt/sources.list')
+    sudo('wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -')
     sudo('apt-get update')
 
     # Ubuntu system packages
     base_system_pkg = [
         'git',
         'unattended-upgrades',
+        'libssl-dev',
+        'libffi-dev',
+        'openssl',
     ]
     system_python_pkg = [
         'python-dev',
-        'python-setuptools',
+        #'python-setuptools',
         'python-psycopg2',
         'python-lxml',
         'python-imaging',
@@ -390,11 +401,14 @@ def init_postgres_db():
     # Generate a random password, for now.
     if not config_secrets['postgres_db_pass']:
         config_secrets['postgres_db_pass'] = ''.join([random.choice(string.letters + string.digits) for i in range(40)])
+    sudo('psql -d template1 -c "DROP DATABASE IF EXISTS localwiki;"', user='postgres')
+    sudo('psql -d template1 -c "DROP ROLE IF EXISTS localwiki;"', user='postgres')
+    sudo('psql -d template1 -c "DROP USER IF EXISTS localwiki;"', user='postgres')
     sudo("""psql -d template1 -c "CREATE USER localwiki WITH PASSWORD '%s'" """ % config_secrets['postgres_db_pass'], user='postgres')
     sudo("""psql -d template1 -c "ALTER USER localwiki CREATEDB" """, user='postgres')
     sudo("createdb -E UTF8 -O localwiki localwiki", user='postgres')
     # Init PostGIS
-    sudo('psql -d localwiki -c "CREATE EXTENSION postgis; CREATE EXTENSION postgis_topology;"', user='postgres')
+    sudo('psql -d localwiki -c "CREATE EXTENSION IF NOT EXISTS postgis; CREATE EXTENSION IF NOT EXISTS postgis_topology;"', user='postgres')
     sudo('psql -d localwiki -c "GRANT SELECT ON geometry_columns TO localwiki; GRANT SELECT ON geography_columns TO localwiki; GRANT SELECT ON spatial_ref_sys TO localwiki;"', user='postgres')
 
 def update_django_settings():
@@ -440,7 +454,8 @@ def init_localwiki_install():
     init_postgres_db()
 
     # Update to latest virtualenv.
-    sudo('pip install --upgrade virtualenv')
+    sudo('pip install --index-url=https://pypi.python.org/simple/ --upgrade pip==6.0.7')
+    sudo('pip install --index-url=https://pypi.python.org/simple/ --upgrade virtualenv==15.0.2')
 
     # Create virtualenv
     if env.host_type == 'test_server':
@@ -449,10 +464,14 @@ def init_localwiki_install():
     else:
         run('virtualenv --system-site-packages %s' % env.virtualenv)
 
+    # fix env
+    #with cd(env.virtualenv):
+        #run('ln -sfn . local')
+
     with virtualenv():
         with cd(env.src_root):
-            # Force update to setuptools
-            run('pip install --upgrade setuptools')
+            # Force update to pip
+            run('pip install --index-url=https://pypi.python.org/simple/ --upgrade pip==6.0.7')
 
             # Install core localwiki module as well as python dependencies
             run('pip install -r requirements.txt')
@@ -476,7 +495,8 @@ def setup_repo():
     sudo('mkdir -p %s' % env.localwiki_root)
     sudo('chown -R %s:%s %s' % (env.user, env.user, env.localwiki_root))
     if not exists(env.src_root):
-        run('git clone https://github.com/localwiki/localwiki-backend-server.git %s' % env.src_root)
+        #run('git clone https://github.com/localwiki/localwiki-backend-server.git %s' % env.src_root)
+        run('git clone https://github.com/rsghost/localwiki-backend-server.git %s' % env.src_root)
     switch_branch(env.branch)
 
 def switch_branch(branch):
@@ -856,7 +876,7 @@ def update(local=False):
             sudo("python setup.py clean --all", user="www-data")
             sudo("rm -rf dist localwiki.egg-info", user="www-data")
             update_django_settings()
-            sudo('pip install -r requirements.txt')
+            run('pip install -r requirements.txt')
             sudo("python setup.py develop", user="www-data")
             #sudo("python setup.py install")
             sudo("localwiki-manage setup_all", user="www-data")
