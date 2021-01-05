@@ -876,7 +876,7 @@ def update(local=False):
             sudo("python setup.py clean --all", user="www-data")
             sudo("rm -rf dist localwiki.egg-info", user="www-data")
             update_django_settings()
-            run('pip install -r requirements.txt')
+            sudo('pip install -r requirements.txt')
             sudo("python setup.py develop", user="www-data")
             #sudo("python setup.py install")
             sudo("localwiki-manage setup_all", user="www-data")
