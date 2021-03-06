@@ -66,7 +66,7 @@ RAVEN_CONFIG = {
 
 OLWIDGET_CUSTOM_LAYER_TYPES = {
     'mblw': """OpenLayers.Layer.XYZ('MB LW',
-        ["//a.tiles.mapbox.com/v3/philipn.hjmo8m80/${z}/${x}/${y}.png"], {
+        ["//b.tile.openstreetmap.org/${z}/${x}/${y}.png"], {
             sphericalMercator: true,
             wrapDateLine: true,
     })""",
