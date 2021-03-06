@@ -4,6 +4,7 @@ from django.core.urlresolvers import set_urlconf, get_urlconf
 from celery import shared_task
 
 from regions.models import Region
+from django.conf import settings
 
 
 @shared_task(ignore_result=True)
