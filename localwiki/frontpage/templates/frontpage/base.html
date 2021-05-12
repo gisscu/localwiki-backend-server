@@ -48,7 +48,7 @@
 {% endblock %}
 
 {% block main_wrapper %}
-  {% phased with messages %} 
+  {% phased with messages %}
   {% if messages %}
   <ul class="messages">
     {% for message in messages %}
@@ -113,7 +113,7 @@ and submit using #cover_form.
           ({{ date }} by {{ user_link }}){% endblocktrans %}
       </em>
     {% endif %}
-    
+
     <div id="page" class="frontpage">
         {% if map %}
         <div id="map">

@@ -25,7 +25,7 @@
         <h1>{% blocktrans %}士林地方誌</br>眾人皆志士{% endblocktrans %}</h1>
       </div>
   </div>
-  
+
   <div class="interesting_cards">
       <h2>{% trans "Explore LocalWiki" %}</h2>
       {% cache 300 int_main_regions request.META.HTTP_HOST %}
@@ -45,99 +45,99 @@
       <a href="{% url 'regions:add' %}" class="button">{% trans "Bring LocalWiki to your community" %}</a>
   </div>
 
-  <div class="highlights">
-      <div class="item">
-        <div>
-          <img class="img" src="{{ STATIC_URL }}img/noticeboard_main.jpg" srcset ="{{ STATIC_URL }}img/noticeboard_main@2x.jpg 2x, {{ STATIC_URL }}img/noticeboard_main@1.5x.jpg 1.5x" style="width: 309px; height: 232px;"/>
-          <div class="description">
-            {# Translators: heading for main home page #}
-            <h2>{% trans "A community knowledge commons" %}</h2>
-            {# Translators: 'A community knowledge commons' descriptive text for main home page #}
-            <p>{% blocktrans %}
-What if there was somewhere you could go to learn all about where you live? A place to learn about your <a href="/oakland/Neighborhoods" target="_blank">neighborhoods</a>, about your local <a href="/santacruz/Parks_and_Open_Spaces" target="_blank">parks</a>, about being a <a href="/davis/Parenting" target="_blank">parent in your city</a>, about <a href="/tags/history" target="_blank">history</a>, <a href="/detroit/Detroit_Department_of_Transportation_%28DDOT%29" target="_blank">politics</a> &ndash; anything and everything useful and beautiful about your community. With LocalWiki, everybody has a way to share and learn about where they live.
-            {% endblocktrans %}</p>
-          </div>
-        </div>
-      </div>
-      <div class="item">
-        <div>
-          <img class="img" src="{{ STATIC_URL }}img/storytelling.jpg" srcset="{{ STATIC_URL }}img/storytelling@2x.jpg 2x, {{ STATIC_URL }}img/storytelling@1.5x.jpg 1.5x" style="width: 309px; height: 232px;"/>
-          <div class="description">
-            {# Translators: heading for main home page #}
-            <h2>{% trans "A collaborative storytelling tool" %}</h2>
-            {# Translators: 'A collaborative storytelling tool' descriptive text for main home page #}
-            <p>{% blocktrans %}
-            Whether it's knowing about <a href="/sf/Green_Hairstreak_Butterfly_Corridor" target="_blank">butterfly corridors</a> or the history of a <a href="/islavista/Coal_Oil_Point" target="_blank">local beach</a>, everyone holds a piece of the puzzle of what it's like to live in their community. And unlike a news site or a blog, anyone can add and modify LocalWiki pages. LocalWiki lets you and your neighbors tell the story of your community, together.
-            {% endblocktrans %}</p>
-          </div>
-        </div>
-      </div>
-      <div class="item">
-          <div>
-            <img class="img" src="{{ STATIC_URL }}img/global_effort.jpg" srcset="{{ STATIC_URL }}img/global_effort@2x.jpg 2x, {{ STATIC_URL }}img/global_effort@1.5x.jpg 1.5x" style="width: 309px; height: 232px;"/>
-            <div class="description">
-              {# Translators: heading for main home page #}
-              <h2>{% trans "A global effort" %}</h2>
-              {# Translators: 'A global effort' descriptive text for main home page #}
-              <p>{% blocktrans %}
-              From <a href="https://ja.localwiki.org/sapporo/" target="_blank">Sapporo, Japan</a> to <a href="/oakland/" target="_blank">Oakland, California</a>, communities across the world use LocalWiki to share their local knowledge. Learn about the issues that affect nearby communities, and communities halfway across the globe. There is a whole world to discover!
-              {% endblocktrans %}</p>
-            </div>
-           </div>
-      </div>
-      <div class="item">
-          <div>
-            <img class="img noborder" src="{{ STATIC_URL }}img/cc_main_page.png" srcset="{{ STATIC_URL }}img/cc_main_page@2x.png 2x, {{ STATIC_URL }}img/cc_main_page@1.5x.png 1.5x" style="width: 309px; height: 232px;"/>
-            <div class="description">
-              {# Translators: heading for main home page #}
-              <h2>{% trans "Free, open and non-profit" %}</h2>
-              {# Translators: 'Free, open and non-profit' descriptive text for main home page #}
-              <p>{% blocktrans %}
-              Like a park or a public library, LocalWiki is a public good. LocalWiki is free for anyone to <a href="/main/Copyrights" target="_blank">read, copy and reuse for any purpose</a>, and the backend code powering LocalWiki is open-source. We do not run any advertisements, and we are a 501(c)(3) non-profit organization. You can <a href="https://www.patreon.com/localwiki" target="_blank">donate to support LocalWiki here</a>.
-              {% endblocktrans %}</p>
-            </div>
-           </div>
-      </div>
-      <div class="item">
-          <div>
-            <img class="img" src="{{ STATIC_URL }}img/api_for_city_main.jpg" srcset="{{ STATIC_URL }}img/api_for_city_main@2x.jpg 2x, {{ STATIC_URL }}img/api_for_city_main@1.5x.jpg 1.5x" style="width: 309px; height: 205px;"/>
-            <div class="description">
-              {# Translators: heading for main home page #}
-              <h2>{% trans "An API for your city" %}</h2>
-              {# Translators: 'An API for your city' descriptive text for main home page #}
-              <p>{% blocktrans %}
-            LocalWiki represents a free, universally-accessible collection of the world's local knowledge upon which we hope countless civic and locally-relevant applications will be built. Our <a href="/api/" target="_blank">geospatially-aware, read-write API</a> makes it easy to integrate LocalWiki with your application, or to import useful local data from elsewhere!
-              {% endblocktrans %}</p>
-            </div>
-           </div>
-      </div>
-      <div class="item">
-          <div>
-            <img class="img" src="{{ STATIC_URL }}img/page_edit_screenshot.jpg" srcset="{{ STATIC_URL }}img/page_edit_screenshot@2x.jpg 2x, {{ STATIC_URL }}img/page_edit_screenshot@1.5x.jpg 1.5x" style="width: 309px; height: 211px;"/>
-            <div class="description">
-              {# Translators: heading for main home page #}
-              <h2>{% trans "It's easy!" %}</h2>
-              {# Translators: 'It's easy!' descriptive text for main home page #}
-              <p>{% blocktrans %}
-              Adding to LocalWiki is as easy as making a Facebook post – contributing <a href="/main/Help" target="_blank">requires no technical knowledge</a> or academic background. We have no complicated rules for how to format a page, or even <a href="/main/What_can_I_write_about%3F" target="_blank">what to write about</a>: if it's useful or beautiful to your community, then it's worth sharing!
-              {% endblocktrans %}</p>
-            </div>
-           </div>
-      </div>
+  {% comment %} <div class="highlights"> {% endcomment %}
+      {% comment %} <div class="item"> {% endcomment %}
+        {% comment %} <div> {% endcomment %}
+          {% comment %} <img class="img" src="{{ STATIC_URL }}img/noticeboard_main.jpg" srcset ="{{ STATIC_URL }}img/noticeboard_main@2x.jpg 2x, {{ STATIC_URL }}img/noticeboard_main@1.5x.jpg 1.5x" style="width: 309px; height: 232px;"/> {% endcomment %}
+          {% comment %} <div class="description"> {% endcomment %}
+            {% comment %} [> Translators: heading for main home page <] {% endcomment %}
+            {% comment %} <h2>{% trans "A community knowledge commons" %}</h2> {% endcomment %}
+            {% comment %} [> Translators: 'A community knowledge commons' descriptive text for main home page <] {% endcomment %}
+            {% comment %} <p>{% blocktrans %} {% endcomment %}
+{% comment %} What if there was somewhere you could go to learn all about where you live? A place to learn about your <a href="/oakland/Neighborhoods" target="_blank">neighborhoods</a>, about your local <a href="/santacruz/Parks_and_Open_Spaces" target="_blank">parks</a>, about being a <a href="/davis/Parenting" target="_blank">parent in your city</a>, about <a href="/tags/history" target="_blank">history</a>, <a href="/detroit/Detroit_Department_of_Transportation_%28DDOT%29" target="_blank">politics</a> &ndash; anything and everything useful and beautiful about your community. With LocalWiki, everybody has a way to share and learn about where they live. {% endcomment %}
+            {% comment %} {% endblocktrans %}</p> {% endcomment %}
+          {% comment %} </div> {% endcomment %}
+        {% comment %} </div> {% endcomment %}
+      {% comment %} </div> {% endcomment %}
+      {% comment %} <div class="item"> {% endcomment %}
+        {% comment %} <div> {% endcomment %}
+          {% comment %} <img class="img" src="{{ STATIC_URL }}img/storytelling.jpg" srcset="{{ STATIC_URL }}img/storytelling@2x.jpg 2x, {{ STATIC_URL }}img/storytelling@1.5x.jpg 1.5x" style="width: 309px; height: 232px;"/> {% endcomment %}
+          {% comment %} <div class="description"> {% endcomment %}
+            {% comment %} [> Translators: heading for main home page <] {% endcomment %}
+            {% comment %} <h2>{% trans "A collaborative storytelling tool" %}</h2> {% endcomment %}
+            {% comment %} [> Translators: 'A collaborative storytelling tool' descriptive text for main home page <] {% endcomment %}
+            {% comment %} <p>{% blocktrans %} {% endcomment %}
+            {% comment %} Whether it's knowing about <a href="/sf/Green_Hairstreak_Butterfly_Corridor" target="_blank">butterfly corridors</a> or the history of a <a href="/islavista/Coal_Oil_Point" target="_blank">local beach</a>, everyone holds a piece of the puzzle of what it's like to live in their community. And unlike a news site or a blog, anyone can add and modify LocalWiki pages. LocalWiki lets you and your neighbors tell the story of your community, together. {% endcomment %}
+            {% comment %} {% endblocktrans %}</p> {% endcomment %}
+          {% comment %} </div> {% endcomment %}
+        {% comment %} </div> {% endcomment %}
+      {% comment %} </div> {% endcomment %}
+      {% comment %} <div class="item"> {% endcomment %}
+          {% comment %} <div> {% endcomment %}
+            {% comment %} <img class="img" src="{{ STATIC_URL }}img/global_effort.jpg" srcset="{{ STATIC_URL }}img/global_effort@2x.jpg 2x, {{ STATIC_URL }}img/global_effort@1.5x.jpg 1.5x" style="width: 309px; height: 232px;"/> {% endcomment %}
+            {% comment %} <div class="description"> {% endcomment %}
+              {% comment %} [> Translators: heading for main home page <] {% endcomment %}
+              {% comment %} <h2>{% trans "A global effort" %}</h2> {% endcomment %}
+              {% comment %} [> Translators: 'A global effort' descriptive text for main home page <] {% endcomment %}
+              {% comment %} <p>{% blocktrans %} {% endcomment %}
+              {% comment %} From <a href="https://ja.localwiki.org/sapporo/" target="_blank">Sapporo, Japan</a> to <a href="/oakland/" target="_blank">Oakland, California</a>, communities across the world use LocalWiki to share their local knowledge. Learn about the issues that affect nearby communities, and communities halfway across the globe. There is a whole world to discover! {% endcomment %}
+              {% comment %} {% endblocktrans %}</p> {% endcomment %}
+            {% comment %} </div> {% endcomment %}
+           {% comment %} </div> {% endcomment %}
+      {% comment %} </div> {% endcomment %}
+      {% comment %} <div class="item"> {% endcomment %}
+          {% comment %} <div> {% endcomment %}
+            {% comment %} <img class="img noborder" src="{{ STATIC_URL }}img/cc_main_page.png" srcset="{{ STATIC_URL }}img/cc_main_page@2x.png 2x, {{ STATIC_URL }}img/cc_main_page@1.5x.png 1.5x" style="width: 309px; height: 232px;"/> {% endcomment %}
+            {% comment %} <div class="description"> {% endcomment %}
+              {% comment %} [> Translators: heading for main home page <] {% endcomment %}
+              {% comment %} <h2>{% trans "Free, open and non-profit" %}</h2> {% endcomment %}
+              {% comment %} [> Translators: 'Free, open and non-profit' descriptive text for main home page <] {% endcomment %}
+              {% comment %} <p>{% blocktrans %} {% endcomment %}
+              {% comment %} Like a park or a public library, LocalWiki is a public good. LocalWiki is free for anyone to <a href="/main/Copyrights" target="_blank">read, copy and reuse for any purpose</a>, and the backend code powering LocalWiki is open-source. We do not run any advertisements, and we are a 501(c)(3) non-profit organization. You can <a href="https://www.patreon.com/localwiki" target="_blank">donate to support LocalWiki here</a>. {% endcomment %}
+              {% comment %} {% endblocktrans %}</p> {% endcomment %}
+            {% comment %} </div> {% endcomment %}
+           {% comment %} </div> {% endcomment %}
+      {% comment %} </div> {% endcomment %}
+      {% comment %} <div class="item"> {% endcomment %}
+          {% comment %} <div> {% endcomment %}
+            {% comment %} <img class="img" src="{{ STATIC_URL }}img/api_for_city_main.jpg" srcset="{{ STATIC_URL }}img/api_for_city_main@2x.jpg 2x, {{ STATIC_URL }}img/api_for_city_main@1.5x.jpg 1.5x" style="width: 309px; height: 205px;"/> {% endcomment %}
+            {% comment %} <div class="description"> {% endcomment %}
+              {% comment %} [> Translators: heading for main home page <] {% endcomment %}
+              {% comment %} <h2>{% trans "An API for your city" %}</h2> {% endcomment %}
+              {% comment %} [> Translators: 'An API for your city' descriptive text for main home page <] {% endcomment %}
+              {% comment %} <p>{% blocktrans %} {% endcomment %}
+            {% comment %} LocalWiki represents a free, universally-accessible collection of the world's local knowledge upon which we hope countless civic and locally-relevant applications will be built. Our <a href="/api/" target="_blank">geospatially-aware, read-write API</a> makes it easy to integrate LocalWiki with your application, or to import useful local data from elsewhere! {% endcomment %}
+              {% comment %} {% endblocktrans %}</p> {% endcomment %}
+            {% comment %} </div> {% endcomment %}
+           {% comment %} </div> {% endcomment %}
+      {% comment %} </div> {% endcomment %}
+      {% comment %} <div class="item"> {% endcomment %}
+          {% comment %} <div> {% endcomment %}
+            {% comment %} <img class="img" src="{{ STATIC_URL }}img/page_edit_screenshot.jpg" srcset="{{ STATIC_URL }}img/page_edit_screenshot@2x.jpg 2x, {{ STATIC_URL }}img/page_edit_screenshot@1.5x.jpg 1.5x" style="width: 309px; height: 211px;"/> {% endcomment %}
+            {% comment %} <div class="description"> {% endcomment %}
+              {% comment %} [> Translators: heading for main home page <] {% endcomment %}
+              {% comment %} <h2>{% trans "It's easy!" %}</h2> {% endcomment %}
+              {% comment %} [> Translators: 'It's easy!' descriptive text for main home page <] {% endcomment %}
+              {% comment %} <p>{% blocktrans %} {% endcomment %}
+              {% comment %} Adding to LocalWiki is as easy as making a Facebook post – contributing <a href="/main/Help" target="_blank">requires no technical knowledge</a> or academic background. We have no complicated rules for how to format a page, or even <a href="/main/What_can_I_write_about%3F" target="_blank">what to write about</a>: if it's useful or beautiful to your community, then it's worth sharing! {% endcomment %}
+              {% comment %} {% endblocktrans %}</p> {% endcomment %}
+            {% comment %} </div> {% endcomment %}
+           {% comment %} </div> {% endcomment %}
+      {% comment %} </div> {% endcomment %}
 
-  </div>
+  {% comment %} </div> {% endcomment %}
 
-  <div class="quote_pull_wrapper">
-     <div class="quote_pull">
-     <span class="qstart">“</span>{% trans "Yelp is aimed at the consumer in us. LocalWiki inspires the citizen in us." %}<span class="qend">”</span>
-       <span class="author">{% trans "Sue Gardner, Former Executive Director, Wikimedia Foundation" %}</span>
-     </div>
-  </div>
+  {% comment %} <div class="quote_pull_wrapper"> {% endcomment %}
+     {% comment %} <div class="quote_pull"> {% endcomment %}
+     {% comment %} <span class="qstart">“</span>{% trans "Yelp is aimed at the consumer in us. LocalWiki inspires the citizen in us." %}<span class="qend">”</span> {% endcomment %}
+       {% comment %} <span class="author">{% trans "Sue Gardner, Former Executive Director, Wikimedia Foundation" %}</span> {% endcomment %}
+     {% comment %} </div> {% endcomment %}
+  {% comment %} </div> {% endcomment %}
 
-  <div class="bring_localwiki">
-      <a href="{% url 'regions:add' %}" class="button">{% trans "Bring LocalWiki to your community" %}</a>
-  </div>
-  
+  {% comment %} <div class="bring_localwiki"> {% endcomment %}
+      {% comment %} <a href="{% url 'regions:add' %}" class="button">{% trans "Bring LocalWiki to your community" %}</a> {% endcomment %}
+  {% comment %} </div> {% endcomment %}
+
   <div class="stats_with_map">
     {% url 'regions:list' as regions_list %}
     {% blocktrans with map_media=map.media page_count=page_count|intcomma %}
