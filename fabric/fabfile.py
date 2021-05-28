@@ -322,7 +322,7 @@ def setup_jetty():
     sudo("sed -i 's/NO_START=1/NO_START=0/g' /etc/default/jetty")
     sudo("cp /etc/solr/conf/schema.xml /etc/solr/conf/schema.xml.orig")
     put("config/solr_schema.xml", "/etc/solr/conf/schema.xml", use_sudo=True)
-    put("config/daisydiff.war", "/var/lib/jetty/webapps", use_sudo=True)
+    put("config/daisydiff.war", "/var/lib/jetty8/webapps", use_sudo=True)
     sudo("service jetty stop")
     sudo("service jetty start")
 
@@ -338,14 +338,15 @@ def install_system_requirements():
     sudo('apt-get -y install python-software-properties')
 
     # Custom PPA for Solr 3.5
-    sudo("apt-add-repository -y ppa:webops/solr-3.5")
+    #sudo("apt-add-repository -y ppa:webops/solr-3.5")
+    sudo('echo "deb http://ppa.launchpad.net/webops/solr-3.5/ubuntu/ precise main" >> /etc/apt/sources.list')
 
     # Need GDAL >= 1.10 and PostGIS 2, so we use this
     # PPA.
     sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 314DF160')
     sudo('apt-add-repository -y ppa:ubuntugis/ubuntugis-unstable')
 
-    sudo('echo "deb http://apt.postgresql.org/pub/repos/apt precise-pgdg main" >> /etc/apt/sources.list')
+    sudo('echo "deb http://apt.postgresql.org/pub/repos/apt xenial-pgdg main" >> /etc/apt/sources.list')
     sudo('wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -')
     sudo('apt-get update')
 
@@ -367,7 +368,7 @@ def install_system_requirements():
     ]
     solr_pkg = ['solr-jetty', 'default-jre-headless']
     apache_pkg = ['apache2', 'libapache2-mod-wsgi']
-    postgres_pkg = ['gdal-bin', 'proj', 'postgresql-9.1-postgis-2.1', 'postgresql-server-dev-all']
+    postgres_pkg = ['gdal-bin', 'proj-bin', 'postgresql-9.1-postgis-2.2', 'postgresql-server-dev-all']
     memcached_pkg = ['memcached']
     varnish_pkg = ['varnish']
     web_pkg = ['yui-compressor']
