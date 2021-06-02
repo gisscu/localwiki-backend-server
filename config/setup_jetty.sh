@@ -21,10 +21,10 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     cp $HERE/os_x/org.jetty.jetty.plist ~/Library/LaunchAgents/
     launchctl load ~/Library/LaunchAgents/org.jetty.jetty.plist
 else
-    sudo sed -i 's/NO_START=1/NO_START=0/g' /etc/default/jetty
+    sudo sed -i 's/NO_START=1/NO_START=0/g' /etc/default/jetty8
     sudo cp /etc/solr/conf/schema.xml /etc/solr/conf/schema.xml.orig
     sudo cp $HERE/solr_schema.xml /etc/solr/conf/schema.xml
-    sudo cp $HERE/daisydiff.war /var/lib/jetty/webapps
-    sudo service jetty stop
-    sudo service jetty start
+    sudo cp $HERE/daisydiff.war /var/lib/jetty8/webapps
+    sudo service jetty8 stop
+    sudo service jetty8 start
 fi

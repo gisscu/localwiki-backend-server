@@ -318,13 +318,13 @@ def set_postgresql_shmmax():
     sudo('sysctl -p')
 
 def setup_jetty():
-    put("config/default/jetty", "/etc/default/", use_sudo=True)
-    sudo("sed -i 's/NO_START=1/NO_START=0/g' /etc/default/jetty")
+    put("config/default/jetty8", "/etc/default/", use_sudo=True)
+    sudo("sed -i 's/NO_START=1/NO_START=0/g' /etc/default/jetty8")
     sudo("cp /etc/solr/conf/schema.xml /etc/solr/conf/schema.xml.orig")
     put("config/solr_schema.xml", "/etc/solr/conf/schema.xml", use_sudo=True)
     put("config/daisydiff.war", "/var/lib/jetty8/webapps", use_sudo=True)
-    sudo("service jetty stop")
-    sudo("service jetty start")
+    sudo("service jetty8 stop")
+    sudo("service jetty8 start")
 
 def setup_memcached():
     put("config/memcached/memcached.conf", "/etc/memcached.conf", use_sudo=True)
