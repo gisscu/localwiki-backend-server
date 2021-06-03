@@ -300,7 +300,7 @@ def setup_postgres(test_server=False):
     else:
         put('config/postgresql/postgresql_test.conf', '/etc/postgresql/9.1/main/postgresql.conf', use_sudo=True)
 
-    set_postgresql_shmmax()
+    # set_postgresql_shmmax()
     sudo('chown postgres /etc/postgresql/9.1/main/postgresql.conf')
     sudo('chgrp postgres /etc/postgresql/9.1/main/postgresql.conf')
     sudo('ls -alh  /etc/postgresql/9.1/main/')
@@ -331,6 +331,10 @@ def setup_memcached():
     sudo("service memcached restart")
 
 def install_system_requirements():
+    # Resize shm
+    sudo('echo "tmpfs /dev/shm tmpfs defaults,size=4G 0 0" >> /etc/fstab')
+    sudo('mount /dev/shm')
+
     # Update package list
     sudo("sed -i 's/us.archive.ubuntu.com/tw.archive.ubuntu.com/g' /etc/apt/sources.list")
     sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EA8F35793D8809A')
@@ -490,6 +494,7 @@ def init_localwiki_install():
                 ])
             update_django_settings()
 
+            run("sed -i \"s/geos_version().decode()/geos_version().decode().split(' ')[0]/g\" %s/lib/python2.7/site-packages/django/contrib/gis/geos/libgeos.py" % env.virtualenv)
             run('localwiki-manage setup_all')
 
 def setup_repo():
@@ -742,14 +747,18 @@ def setup_ec2():
     create_swap()
 
 def setup_celery():
-    if env.host_type == 'vagrant':
-        put('config/init/celery_vagrant.conf', '/etc/init/celery.conf', use_sudo=True)
-    else:
-        put('config/init/celery.conf', '/etc/init/celery.conf', use_sudo=True)
+    #if env.host_type == 'vagrant':
+    #    put('config/init/celery_vagrant.conf', '/etc/init/celery.conf', use_sudo=True)
+    #else:
+    #    put('config/init/celery.conf', '/etc/init/celery.conf', use_sudo=True)
+
+    put('config/init/celery.sh', '/home/vagrant/celery.sh', use_sudo=True)
+    sudo('chmod 755 /home/vagrant/celery.sh')
     sudo('touch /var/log/celery.log')
     sudo('chown www-data:www-data /var/log/celery.log')
     sudo('chmod 660 /var/log/celery.log')
-    sudo('service celery start')
+    #sudo('service celery start')
+    sudo('screen -S celery -dm ./celery.sh')
 
 def setup_unattended_upgrades():
     """
@@ -928,7 +937,9 @@ def deploy(local=False, update_configs=None, clear_caches=None):
             setup_memcached()
         touch_wsgi()
         # In case celery apps have changed:
-        sudo('service celery restart')
+        #sudo('service celery restart')
+        sudo('screen -X -S celery quit')
+        sudo('screen -S celery -dm ./celery.sh')
         if clear_caches:
             _clear_caches()
     except Exception as e:
