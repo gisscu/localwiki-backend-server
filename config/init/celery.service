@@ -1,0 +1,11 @@
+[Unit]
+Description=Celery service
+
+[Service]
+User=www-data
+Group=www-data
+ExecStart=/bin/bash -c 'source /srv/localwiki/env/bin/activate && cd /srv/localwiki/src/localwiki && celery worker -A main.celery -B -c 4 -f /var/log/celery.log'
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
