@@ -411,10 +411,12 @@ def init_postgres_db():
     sudo('psql -d template1 -c "DROP USER IF EXISTS localwiki;"', user='postgres')
     sudo("""psql -d template1 -c "CREATE USER localwiki WITH PASSWORD '%s'" """ % config_secrets['postgres_db_pass'], user='postgres')
     sudo("""psql -d template1 -c "ALTER USER localwiki CREATEDB" """, user='postgres')
+    sudo("""psql -d postgres -c "ALTER ROLE localwiki SUPERUSER" """, user='postgres')
     sudo("createdb -E UTF8 -O localwiki localwiki", user='postgres')
     # Init PostGIS
     sudo('psql -d localwiki -c "CREATE EXTENSION IF NOT EXISTS postgis; CREATE EXTENSION IF NOT EXISTS postgis_topology;"', user='postgres')
     sudo('psql -d localwiki -c "GRANT SELECT ON geometry_columns TO localwiki; GRANT SELECT ON geography_columns TO localwiki; GRANT SELECT ON spatial_ref_sys TO localwiki;"', user='postgres')
+    sudo("""psql -d postgres -c "ALTER ROLE localwiki NOSUPERUSER" """, user='postgres')
 
 def update_django_settings():
     upload_template('config/localsettings.py',
@@ -427,6 +429,8 @@ def update_apache_settings(restart=True):
 
     # Create our extra config file directory if it doesn't already exist
     sudo('mkdir -p /etc/apache2/extra-conf')
+    sudo('mkdir -p /etc/apache2/conf.d')
+    sudo('touch /etc/apache2/httpd.conf')
 
     get_ssl_info()
 
@@ -752,13 +756,11 @@ def setup_celery():
     #else:
     #    put('config/init/celery.conf', '/etc/init/celery.conf', use_sudo=True)
 
-    put('config/init/celery.sh', '/home/vagrant/celery.sh', use_sudo=True)
-    sudo('chmod 755 /home/vagrant/celery.sh')
+    put('config/init/celery.service', '/etc/systemd/system/celery.service', use_sudo=True)
     sudo('touch /var/log/celery.log')
     sudo('chown www-data:www-data /var/log/celery.log')
     sudo('chmod 660 /var/log/celery.log')
-    #sudo('service celery start')
-    sudo('screen -S celery -dm ./celery.sh')
+    sudo('service celery start')
 
 def setup_unattended_upgrades():
     """
@@ -937,9 +939,8 @@ def deploy(local=False, update_configs=None, clear_caches=None):
             setup_memcached()
         touch_wsgi()
         # In case celery apps have changed:
-        #sudo('service celery restart')
-        sudo('screen -X -S celery quit')
-        sudo('screen -S celery -dm ./celery.sh')
+        sudo('service celery restart')
+
         if clear_caches:
             _clear_caches()
     except Exception as e:
