@@ -338,6 +338,7 @@ def install_system_requirements():
     # Update package list
     sudo("sed -i 's/us.archive.ubuntu.com/tw.archive.ubuntu.com/g' /etc/apt/sources.list")
     sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EA8F35793D8809A')
+    sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 343E3C917E731D72')
     sudo('apt-get update')
     sudo('apt-get -y install python-software-properties')
 
@@ -350,7 +351,7 @@ def install_system_requirements():
     sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 314DF160')
     sudo('apt-add-repository -y ppa:ubuntugis/ubuntugis-unstable')
 
-    sudo('echo "deb http://apt.postgresql.org/pub/repos/apt xenial-pgdg main" >> /etc/apt/sources.list')
+    sudo('echo "deb http://apt-archive.postgresql.org/pub/repos/apt precise-pgdg main" >> /etc/apt/sources.list')
     sudo('wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -')
     sudo('apt-get update')
 
@@ -372,7 +373,18 @@ def install_system_requirements():
     ]
     solr_pkg = ['solr-jetty', 'default-jre-headless']
     apache_pkg = ['apache2', 'libapache2-mod-wsgi']
-    postgres_pkg = ['gdal-bin', 'proj-bin', 'postgresql-9.1-postgis-2.2', 'postgresql-server-dev-all']
+    postgres_pkg = [
+        'gdal-bin', 
+        'proj-bin', 
+        'postgresql-server-dev-all', 
+        #'postgresql-9.1-postgis-2.1', 
+        'postgresql-9.1',
+        'postgresql-9.1-postgis-2.1-scripts',
+        'postgresql-9.1-postgis-scripts',
+        'libgdal1i', 
+        'libgeos-c1v5',
+        'libproj9',
+    ]
     memcached_pkg = ['memcached']
     varnish_pkg = ['varnish']
     web_pkg = ['yui-compressor']
@@ -401,6 +413,10 @@ def install_system_requirements():
         monitoring
     )
     sudo('DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y --force-yes install %s' % ' '.join(packages))
+    put('config/liblwgeom-2.1.8_2.1.8+dfsg-5~97.git43a09cc.pgdg12.4+1_amd64.deb', '/home/vagrant/liblwgeom-2.1.8.deb')
+    put('config/postgresql-9.1-postgis-2.1_2.1.8+dfsg-5~97.git43a09cc.pgdg12.4+1_amd64.deb', '/home/vagrant/postgresql-9.1-postgis-2.1.deb')
+    sudo('dpkg --force-all -i liblwgeom-2.1.8.deb')
+    sudo('dpkg --force-all -i postgresql-9.1-postgis-2.1.deb')
 
 def init_postgres_db():
     # Generate a random password, for now.
