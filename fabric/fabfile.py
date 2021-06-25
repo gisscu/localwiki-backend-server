@@ -332,20 +332,29 @@ def setup_memcached():
 
 def install_system_requirements():
     # Update package list
-    sudo("sed -i 's/us.archive.ubuntu.com/tw.archive.ubuntu.com/g' /etc/apt/sources.list")
+    sudo("echo 'nameserver 8.8.8.8' >> /etc/resolvconf/resolv.conf.d/head")
+    sudo("echo 'nameserver 8.8.4.4' >> /etc/resolvconf/resolv.conf.d/head")
+    sudo('resolvconf -u')
+    sudo('/etc/init.d/dns-clean start')
+    sudo("sed -i 's/us.archive.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list")
+    sudo("sed -i 's/security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list")
     sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EA8F35793D8809A')
+    sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 343E3C917E731D72')
+    sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 089EBE08314DF160')
     sudo('apt-get update')
     sudo('apt-get -y install python-software-properties')
 
     # Custom PPA for Solr 3.5
-    sudo("apt-add-repository -y ppa:webops/solr-3.5")
+    #sudo("apt-add-repository -y ppa:webops/solr-3.5")
+    sudo('echo "deb http://ppa.launchpad.net/webops/solr-3.5/ubuntu/ precise main" >> /etc/apt/sources.list')
 
     # Need GDAL >= 1.10 and PostGIS 2, so we use this
     # PPA.
     sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 314DF160')
     sudo('apt-add-repository -y ppa:ubuntugis/ubuntugis-unstable')
 
-    sudo('echo "deb http://apt.postgresql.org/pub/repos/apt precise-pgdg main" >> /etc/apt/sources.list')
+    sudo('echo "deb https://apt-archive.postgresql.org/pub/repos/apt precise-pgdg-archive main" >> /etc/apt/sources.list')
+    sudo('echo "deb-src https://apt-archive.postgresql.org/pub/repos/apt precise-pgdg-archive main" >> /etc/apt/sources.list')
     sudo('wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | apt-key add -')
     sudo('apt-get update')
 
@@ -406,6 +415,7 @@ def init_postgres_db():
     sudo('psql -d template1 -c "DROP USER IF EXISTS localwiki;"', user='postgres')
     sudo("""psql -d template1 -c "CREATE USER localwiki WITH PASSWORD '%s'" """ % config_secrets['postgres_db_pass'], user='postgres')
     sudo("""psql -d template1 -c "ALTER USER localwiki CREATEDB" """, user='postgres')
+    sudo("""psql -d postgres -c "ALTER ROLE localwiki SUPERUSER" """, user='postgres')
     sudo("createdb -E UTF8 -O localwiki localwiki", user='postgres')
     # Init PostGIS
     sudo('psql -d localwiki -c "CREATE EXTENSION IF NOT EXISTS postgis; CREATE EXTENSION IF NOT EXISTS postgis_topology;"', user='postgres')
