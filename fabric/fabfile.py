@@ -341,8 +341,8 @@ def install_system_requirements():
     sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 2EA8F35793D8809A')
     sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 343E3C917E731D72')
     sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 089EBE08314DF160')
-    sudo('apt-get update')
-    sudo('apt-get -y install python-software-properties')
+    #sudo('apt-get update')
+    #sudo('apt-get -y install python-software-properties')
 
     # Custom PPA for Solr 3.5
     #sudo("apt-add-repository -y ppa:webops/solr-3.5")
@@ -351,7 +351,8 @@ def install_system_requirements():
     # Need GDAL >= 1.10 and PostGIS 2, so we use this
     # PPA.
     sudo('apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 314DF160')
-    sudo('apt-add-repository -y ppa:ubuntugis/ubuntugis-unstable')
+    #sudo('apt-add-repository -y ppa:ubuntugis/ubuntugis-unstable')
+    sudo('echo "deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu/ precise main" >> /etc/apt/sources.list')
 
     sudo('echo "deb https://apt-archive.postgresql.org/pub/repos/apt precise-pgdg-archive main" >> /etc/apt/sources.list')
     sudo('echo "deb-src https://apt-archive.postgresql.org/pub/repos/apt precise-pgdg-archive main" >> /etc/apt/sources.list')
@@ -369,10 +370,24 @@ def install_system_requirements():
     system_python_pkg = [
         'python-dev',
         #'python-setuptools',
-        'python-psycopg2',
-        'python-lxml',
-        'python-imaging',
+        #'python-psycopg2',
+        #'python-lxml',
+        #'python-imaging',
         'python-pip',
+        'build-essential',
+        'checkinstall',
+        'libreadline-gplv2-dev',
+        'libncursesw5-dev',
+        'libsqlite3-dev',
+        'tk-dev',
+        'libgdbm-dev',
+        'libc6-dev',
+        'libbz2-dev',
+        'liblcms1',
+        'gcc',
+        'libxml2',
+        'libxml2-dev',
+        'libxmlsec1-dev',
     ]
     solr_pkg = ['solr-jetty', 'default-jre-headless']
     apache_pkg = ['apache2', 'libapache2-mod-wsgi']
@@ -405,6 +420,16 @@ def install_system_requirements():
         monitoring
     )
     sudo('DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y --force-yes install %s' % ' '.join(packages))
+    with cd('/home/vagrant'):
+        run('wget --quiet https://www.python.org/ftp/python/2.7.16/Python-2.7.16.tgz')
+        run('tar -xvf Python-2.7.16.tgz')
+        with cd('/home/vagrant/Python-2.7.16'):
+            run('./configure')
+            run('make')
+            sudo('checkinstall -y')
+        run('wget --quiet https://bootstrap.pypa.io/pip/2.7/get-pip.py --no-check-certificate')
+        sudo('python get-pip.py pip==6.0.7')
+
 
 def init_postgres_db():
     # Generate a random password, for now.
@@ -466,6 +491,9 @@ def init_localwiki_install():
     # Update to latest virtualenv.
     sudo('pip install --index-url=https://pypi.python.org/simple/ --upgrade pip==6.0.7')
     sudo('pip install --index-url=https://pypi.python.org/simple/ --upgrade virtualenv==15.0.2')
+    sudo('pip install --index-url=https://pypi.python.org/simple/ --upgrade psycopg2==2.4.5')
+    sudo('pip install --index-url=https://pypi.python.org/simple/ --upgrade lxml==2.3.2')
+    sudo('pip install --index-url=https://pypi.python.org/simple/ --upgrade Pillow==1.2')
 
     # Create virtualenv
     if env.host_type == 'test_server':
@@ -482,6 +510,9 @@ def init_localwiki_install():
         with cd(env.src_root):
             # Force update to pip
             run('pip install --index-url=https://pypi.python.org/simple/ --upgrade pip==6.0.7')
+            run('pip install --index-url=https://pypi.python.org/simple/ --upgrade psycopg2==2.4.5')
+            run('pip install --index-url=https://pypi.python.org/simple/ --upgrade lxml==2.3.2')
+            run('pip install --index-url=https://pypi.python.org/simple/ --upgrade Pillow==1.2')
 
             # Install core localwiki module as well as python dependencies
             run('pip install -r requirements.txt')
