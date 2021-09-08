@@ -408,9 +408,9 @@ ACTSTREAM_SETTINGS = {
 DISABLE_FOLLOW_SIGNALS = False
 
 OLWIDGET_DEFAULT_OPTIONS = {
-    'default_lat': 37,
-    'default_lon': -99,
-    'default_zoom': 3,
+    'default_lat': 25.0931824,
+    'default_lon': 121.5452516,
+    'default_zoom': 12,
     'zoom_to_data_extent_min': 16,
 
     'layers': ['mblw'],
@@ -425,8 +425,6 @@ OLWIDGET_DEFAULT_OPTIONS = {
 }
 
 LANGUAGE_DEFAULT_CENTERS = {
-    'ja': (37.23, 137.53),
-    'de': (50.33, 9.76),
 }
 
 DAISYDIFF_URL = 'http://localhost:8080/daisydiff/diff'

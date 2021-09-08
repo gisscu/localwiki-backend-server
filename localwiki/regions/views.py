@@ -196,10 +196,10 @@ class RegionListView(ListView):
         if get_language() in settings.LANGUAGE_DEFAULT_CENTERS:
             olwidget_options['default_lat'], olwidget_options['default_lon'] = settings.LANGUAGE_DEFAULT_CENTERS[get_language()]
             olwidget_options['default_zoom'] =  5
-        else:
+        #else:
             # Center to show most of the US'ish
-            olwidget_options['default_lon'] = -100.99
-            olwidget_options['default_lat'] = 39.79
+            #olwidget_options['default_lon'] = 25.0931824
+            #olwidget_options['default_lat'] = 121.5452516
         olwidget_options['zoomToDataExtent'] = self.zoom_to_data
 
         map_opts = olwidget_options.get('map_options', {})
@@ -221,10 +221,10 @@ class RegionListMapView(RegionListView):
         if get_language() in settings.LANGUAGE_DEFAULT_CENTERS:
             olwidget_options['default_lat'], olwidget_options['default_lon'] = settings.LANGUAGE_DEFAULT_CENTERS[get_language()]
             olwidget_options['default_zoom'] =  5
-        else:
+        #else:
             # Center to show most of the US'ish
-            olwidget_options['default_lon'] = -100.99
-            olwidget_options['default_lat'] = 39.79
+            #olwidget_options['default_lon'] = -100.99
+            #olwidget_options['default_lat'] = 39.79
 
         olwidget_options['zoomToDataExtent'] = self.zoom_to_data
 
@@ -294,10 +294,10 @@ class RegionExploreView(MultipleTypesPaginatedView):
         if get_language() in settings.LANGUAGE_DEFAULT_CENTERS:
             olwidget_options['default_lat'], olwidget_options['default_lon'] = settings.LANGUAGE_DEFAULT_CENTERS[get_language()]
             olwidget_options['default_zoom'] =  5
-        else:
+        #else:
             # Center to show most of the US'ish
-            olwidget_options['default_lon'] = -100.99
-            olwidget_options['default_lat'] = 39.79
+            #olwidget_options['default_lon'] = -100.99
+            #olwidget_options['default_lat'] = 39.79
 
         olwidget_options['zoomToDataExtent'] = self.zoom_to_data
 

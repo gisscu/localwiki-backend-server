@@ -40,10 +40,11 @@
           </div>
       {% endcache %}
   </div>
-
+{% comment %}
   <div class="bring_localwiki">
       <a href="{% url 'regions:add' %}" class="button">{% trans "Bring LocalWiki to your community" %}</a>
   </div>
+{% endcomment %}
 
   {% comment %} <div class="highlights"> {% endcomment %}
       {% comment %} <div class="item"> {% endcomment %}
@@ -138,6 +139,7 @@
       {% comment %} <a href="{% url 'regions:add' %}" class="button">{% trans "Bring LocalWiki to your community" %}</a> {% endcomment %}
   {% comment %} </div> {% endcomment %}
 
+{% comment %}
   <div class="stats_with_map">
     {% url 'regions:list' as regions_list %}
     {% blocktrans with map_media=map.media page_count=page_count|intcomma %}
@@ -154,6 +156,7 @@
     </div>
     {% endblocktrans %}
   </div>
+{% endcomment %}
 
   <div class="recent_blogs">
     <h2>{% trans "Recent blog posts" %}</h2>
